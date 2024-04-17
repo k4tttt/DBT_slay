@@ -2,12 +2,29 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
+    <title>Brainfunc Beats Battlestar Galactica</title>
   </head>
   <body>
-    <div id="app"></div>
+    <header>
+        <p>Phaser Demo | Brainfunc Beats</p>
+    </header>
+    <main>
+        <canvas id="gameCanvas"></canvas>
+        <div id="gameStartDiv" class="gameUI">
+            <h1>Brainfunc Beats Battlestar Galactica</h1>
+            <button id="gameStartBtn">Start Game</button>
+        </div>
+        <div id="gameEndDiv" class="gameUI">
+            <p>Game Over</p>
+            <h1>You <span> id="gameWinLoseSpan></span></h1>
+            <h1>Final Score: <span id="gameEndScoreSpan"></span></h1>
+            <p>Refresh to play again</p>
+        </div>
+    </main>
+    <footer>
+        <p>Antons testversion</p>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
