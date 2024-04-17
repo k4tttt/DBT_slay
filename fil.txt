@@ -1,6 +1,6 @@
 nu slayar vi
 
-kan du se min kanin
+kan du se min kanin (:
   //
  ('>
  /rr
@@ -14,7 +14,7 @@ nu testar jag igen
        _|    /_  \ \_\_
 jgs   {_\______\-'\__\_\
 
-en tredje gång, men nu ska jag prova använda bara github desktop
+en tredje gång, men nu ska jag prova använda bara github desktop :} (: (:
              ,\
              \\\,_
               \` ,\
@@ -23,3 +23,4 @@ en tredje gång, men nu ska jag prova använda bara github desktop
     ,_/   ,    \/\_
     \_|    )_-\ \_-`
 jgs    `-----` `--`
+
