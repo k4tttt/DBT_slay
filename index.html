@@ -2,29 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Brainfunc Beats Battlestar Galactica</title>
+    <title>Brainfunc Beats</title>
   </head>
   <body>
     <header>
-        <p>Phaser Demo | Brainfunc Beats</p>
+      <p>Phaser Demo | Brainfunc Beats Battlestar Galactica</p>
     </header>
     <main>
-        <canvas id="gameCanvas"></canvas>
-        <div id="gameStartDiv" class="gameUI">
-            <h1>Brainfunc Beats Battlestar Galactica</h1>
-            <button id="gameStartBtn">Start Game</button>
-        </div>
-        <div id="gameEndDiv" class="gameUI">
-            <p>Game Over</p>
-            <h1>You <span> id="gameWinLoseSpan></span></h1>
-            <h1>Final Score: <span id="gameEndScoreSpan"></span></h1>
-            <p>Refresh to play again</p>
-        </div>
+      <canvas id="gamecanvas"></canvas>
+      <div id="gameStart" class="gameUI">
+        <h1>Catch the arrow</h1>
+        <p>Catch 5 arrows to win</p>
+        <button id="startBtn"><p>Start</p></button>
+      </div>
+      <div id="gameEnd" class="gameUI">
+        <p>Game over</p>
+        <h1>You <span id="winLoseSpan"></span></h1>
+        <h1>Score: <span id="endScoreSpan"></span></h1>
+        <p>Refresh to play again</p>
+      </div>
     </main>
     <footer>
-        <p>Antons testversion</p>
+      <p>Created by DBT Slay</p>
+    </footer>
     <script type="module" src="/main.js"></script>
   </body>
 </html>

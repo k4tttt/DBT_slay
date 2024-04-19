@@ -1,8 +1,8 @@
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    --dkClr: #181818;
-    --liClr: whitesmoke;
-    --accClr: #0d0d35;
+    --dark: #000;
+    --light: #fff;
+    --accent: rgb(104, 178, 85);
   }
   
   * {
@@ -11,21 +11,19 @@
     box-sizing: border-box;
   }
   
-  html,
-  body {
+  html, body {
     height: 100%;
   }
   
   body {
-    background-color: var(--dkClr);
-    color: var(--liClr);
+    background-color: var(--dark);
+    color: var(--light);
     display: flex;
     flex-direction: column;
     min-height: 100vh;
   }
   
-  header,
-  footer {
+  header, footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -37,7 +35,7 @@
     display: flex;
   }
   
-  #gameCanvas {
+  #gamecanvas {
     border: 1px solid red;
     position: absolute;
     top: 50%;
@@ -47,10 +45,10 @@
     z-index: 1;
   }
   
-   .gameUI {
+  .gameUI {
     width: 100%;
     height: 100%;
-    background-color: var(--accClr);
+    background-color: var(--accent);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -63,31 +61,31 @@
     margin-top: 5px;
   }
   
-  #gameStartDiv {
+  #gameStart {
     display: flex;
   }
   
-  #gameEndDiv {
+  #gameEnd {
     display: none;
   }
   
-  #gameStartBtn{
+  #startBtn {
     display: inline-block;
     width: 100px;
-    padding:8px 15px;
+    padding: 8px 15px;
     margin: 20px 0;
     text-align: center;
     font-family: inherit;
-    border-radius: 10px;;
+    border-radius: 10px;
   }
   
-  #gameStartBtn p{
+  #startBtn p {
     margin-top: 0;
   }
   
-  #gameStartBtn:hover{
-    background-color: var(--dkClr);
-    border: 0.5px solid var(--liClr);
-    color: var(--liClr);
-    cursor:pointer;
-  } 
+  #startBtn:hover {
+    background-color: var(--dark);
+    border: 0.5px solid var(--light);
+    color: var(--light);
+    cursor: pointer;
+  }
