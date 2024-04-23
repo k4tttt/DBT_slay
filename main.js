@@ -37,6 +37,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('arrow', 'assets/arrow.png')
     this.load.audio('coinMusic', 'assets/coin.mp3')
     this.load.audio('bgMusic', 'assets/bgMusicAri.mp3')
+    this.load.image('rhythm', 'assets/circle.png')
 }
 
   create() {
@@ -45,8 +46,25 @@ class GameScene extends Phaser.Scene {
     this.coinMusic = this.sound.add('coinMusic');
     this.bgMusic = this.sound.add('bgMusic');
     this.bgMusic.play();
+    this.add.image(0, 0, "bg").setOrigin(0, 0);
 
-    this.add.image(0, 0, "bg").setOrigin(0,  0);
+    var mySprite = this.add.sprite(250, 250, 'rhythm');
+    mySprite.alpha = 0.5;
+    mySprite.setScale(0.1);
+
+    this.tweens.add({
+        targets: mySprite,  // The sprite to tween
+        scaleX: 1,          // Target scale on the x-axis
+        scaleY: 1,          // Target scale on the y-axis
+        yoyo: false,         // Make the tween reverse after reaching the target scale
+        repeat: -1,         // Repeat indefinitely
+        alpha: 0,           // Target alpha value
+        //x: 250,             // Target x position
+        //y: 250,             // Target y position
+        duration: 500,     // Duration of the tween in milliseconds
+        //ease: 'Power2'      // Ease-out
+    });
+
     this.player = this.physics.add.image(0, sizes.height - 50, "basket").setOrigin(0,  0);
     this.player.setImmovable(true);
     this.player.body.allowGravity = false;
