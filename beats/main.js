@@ -2,8 +2,8 @@ import './style.css'
 import Phaser from 'phaser';
 
 const sizes = {
-  width: 1440,
-  height: 816
+  width: window.innerWidth,
+  height: window.innerHeight
 };
 
 const speedDown = 400;
@@ -38,7 +38,7 @@ class GameScene extends Phaser.Scene {
     this.scene.pause("scene-game");
 
     this.kick = this.sound.add("kick");
-    this.add.image(0, 0, "bg").setOrigin(0,  0);
+    this.add.image(sizes.width/2, sizes.height/2, "bg").setOrigin(0.5,  0.5);
 
     this.quadrants = [["arrow_blue", (sizes.width/4)*3, sizes.height/4], ["arrow_red", sizes.width/4, sizes.height/4], ["arrow_yellow", sizes.width/4, (sizes.height/4)*3], ["arrow_purple", (sizes.width/4)*3, (sizes.height/4)*3]];
     console.log(this.quadrants);
