@@ -38,6 +38,8 @@ class GameScene extends Phaser.Scene {
     this.load.audio('coinMusic', 'assets/coin.mp3')
     this.load.audio('bgMusic', 'assets/bgMusicAri.mp3')
     this.load.image('rhythm', 'assets/circle.png')
+    this.load.image('bgCircle', 'assets/bgCircle.png')
+    this.load.image('arrowCircle', 'assets/arrowCircle.png')
 }
 
   create() {
@@ -48,17 +50,35 @@ class GameScene extends Phaser.Scene {
     this.bgMusic.play();
     this.add.image(0, 0, "bg").setOrigin(0, 0);
 
-    var mySprite = this.add.sprite(250, 250, 'rhythm');
-    mySprite.alpha = 0.5;
-    mySprite.setScale(0.1);
+    var circleSprite = this.add.sprite(250, 250, 'bgCircle');
+    circleSprite.alpha = 1;
+    circleSprite.setScale(0.01);
+
+    var arrowSprite = this.add.sprite(250, 250, 'arrowCircle');
+    arrowSprite.alpha = 1;
+    arrowSprite.setScale(0.01);
+
 
     this.tweens.add({
-        targets: mySprite,  // The sprite to tween
+        targets: circleSprite,  // The sprite to tween
         scaleX: 1,          // Target scale on the x-axis
         scaleY: 1,          // Target scale on the y-axis
         yoyo: false,         // Make the tween reverse after reaching the target scale
         repeat: -1,         // Repeat indefinitely
-        alpha: 0,           // Target alpha value
+        alpha: 1,           // Target alpha value
+        //x: 250,             // Target x position
+        //y: 250,             // Target y position
+        duration: 500,     // Duration of the tween in milliseconds
+        //ease: 'Power2'      // Ease-out
+    });
+
+    this.tweens.add({
+        targets: arrowSprite,  // The sprite to tween
+        scaleX: 1,          // Target scale on the x-axis
+        scaleY: 1,          // Target scale on the y-axis
+        yoyo: false,         // Make the tween reverse after reaching the target scale
+        repeat: -1,         // Repeat indefinitely
+        alpha: 1,           // Target alpha value
         //x: 250,             // Target x position
         //y: 250,             // Target y position
         duration: 500,     // Duration of the tween in milliseconds
