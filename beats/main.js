@@ -56,9 +56,9 @@ class GameScene extends Phaser.Scene {
   triggerEvent() {
     this.kick.play();
     let newPosition = this.getRandomQuadrant();
+    this.target.setTexture(newPosition[0]);
     this.target.setX(newPosition[1]);
     this.target.setY(newPosition[2]);
-    this.target.setTexture(newPosition[0]);
   }
 
   getRandomQuadrant() {
@@ -77,13 +77,6 @@ const config = {
   width: sizes.width,
   height: sizes.height,
   canvas: gamecanvas,
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: {y:speedDown},
-      debug: false
-    }
-  },
   scene:[GameScene]
 };
 
