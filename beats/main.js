@@ -5,8 +5,7 @@ const sizes = {
   width: window.innerWidth,
   height: window.innerHeight
 };
-
-const speedDown = 400;
+const beat = 1000;
 
 const gameStartDiv = document.querySelector("#gameStart");
 const gameEndDiv = document.querySelector("#gameEnd");
@@ -17,9 +16,7 @@ const gameEndScoreSpan = document.querySelector("#endScoreSpan");
 class GameScene extends Phaser.Scene {
   constructor() {
     super("scene-game");
-    this.timedEvent;
-    this.remainingTime;
-    this.prevTime;
+    this.timerEvent;
     this.kick;
     this.quadrants;
     this.target;
@@ -41,30 +38,27 @@ class GameScene extends Phaser.Scene {
     this.add.image(sizes.width/2, sizes.height/2, "bg").setOrigin(0.5,  0.5);
 
     this.quadrants = [["arrow_blue", (sizes.width/4)*3, sizes.height/4], ["arrow_red", sizes.width/4, sizes.height/4], ["arrow_yellow", sizes.width/4, (sizes.height/4)*3], ["arrow_purple", (sizes.width/4)*3, (sizes.height/4)*3]];
-    console.log(this.quadrants);
-    console.log(this.quadrants[0]);
-    console.log(this.quadrants[0][0]);
 
-    this.timedEvent = this.time.delayedCall(10000, this.gameOver, [], this);
-    this.prevTime = Math.round(this.timedEvent.getRemainingSeconds());
+    this.timerEvent = this.time.addEvent({
+      delay: beat, // Delay in milliseconds (1000 ms = 1 second)
+      callback: this.triggerEvent, // Callback function to be called
+      callbackScope: this, // Scope of the callback function
+      loop: true // Whether the event should repeat
+    });
 
     let position = this.getRandomQuadrant();
     this.target = this.add.image(position[1], position[2], position[0]).setOrigin(0.5, 0.5);
   }
 
   update() {
-    this.remainingTime = this.timedEvent.getRemainingSeconds();
+  }
 
-    if (Math.round(this.remainingTime) < this.prevTime) {
-      this.kick.play();
-      this.prevTime = Math.round(this.remainingTime);
-
-      let newPosition = this.getRandomQuadrant();
-
-      this.target.setX(newPosition[1]);
-      this.target.setY(newPosition[2]);
-      this.target.setTexture(newPosition[0]);
-    }
+  triggerEvent() {
+    this.kick.play();
+    let newPosition = this.getRandomQuadrant();
+    this.target.setX(newPosition[1]);
+    this.target.setY(newPosition[2]);
+    this.target.setTexture(newPosition[0]);
   }
 
   getRandomQuadrant() {
@@ -73,17 +67,7 @@ class GameScene extends Phaser.Scene {
 
   gameOver() {
     this.sys.game.destroy(true);
-
-    /*
-    if (this.points >= 20) {
-      gameEndScoreSpan.textContent = this.points;
-      gameWinLoseSpan.textContent = "win!";
-    } else {
-      gameEndScoreSpan.textContent = this.points;
-      gameWinLoseSpan.textContent = "lose!";
-    }*/
     gameWinLoseSpan.textContent = "win!"
-
     gameEndDiv.style.display = "flex";
   }
 }
