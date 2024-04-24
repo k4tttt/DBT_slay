@@ -84,7 +84,7 @@ main {
 
 #startBtn:hover {
   background-color: var(--dark);
-  border: 0.5px solid var(--light);
+  border: 2px solid var(--light);
   color: var(--light);
   cursor: pointer;
 }

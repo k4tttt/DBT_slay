@@ -2,11 +2,11 @@ import './style.css'
 import Phaser from 'phaser';
 
 const sizes = {
-  width: 774,
-  height: 500
+  width: 1440,
+  height: 815
 };
 
-const speedDown = 300;
+const speedDown = 400;
 
 const gameStartDiv = document.querySelector("#gameStart");
 const gameEndDiv = document.querySelector("#gameEnd");
@@ -103,7 +103,7 @@ class GameScene extends Phaser.Scene {
   }
 
   getRandomX() {
-    return Math.floor(Math.random() * 740);
+    return Math.floor(Math.random() * (sizes.width - 40));
   }
 
   targetHit() {
@@ -139,7 +139,7 @@ const config = {
     default: "arcade",
     arcade: {
       gravity: {y:speedDown},
-      debug: true
+      debug: false
     }
   },
   scene:[GameScene]
