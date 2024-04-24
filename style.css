@@ -1,0 +1,47 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --dkClr: #181818;
+  --liClr: whitesmoke;
+  --accClr: #0d0d35;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+    background-image: url('/Users/mikaelmeander/DBT_slay/bg.png'); /* Ange sökvägen till din bild */
+    background-size: cover; /* Anpassa storleken för att täcka hela elementet */
+
+}
+body {
+  height: 100%;
+  background-image: url('/Users/mikaelmeander/DBT_slay/bg.png'); /* Ange sökvägen till din bild */
+  background-size: cover; /* Anpassa storleken för att täcka hela bakgrunden */
+  background-position: center; /* Centrera bakgrundsbilden på skärmen */
+  color: var(--liClr);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+
+
+main {
+  flex: 1;
+  display: flex;
+}
+
+#gameCanvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  z-index: 1;
+}
