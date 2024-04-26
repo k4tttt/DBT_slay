@@ -8,11 +8,15 @@ const sizes = {
 
 const speedDown = 400;
 
+
+
+const gameSettingsDiv = document.querySelector("#settingsButton");
 const gameStartDiv = document.querySelector("#gameStart");
 const gameEndDiv = document.querySelector("#gameEnd");
 const gameStartBtn = document.querySelector("#startBtn");
 const gameWinLoseSpan = document.querySelector("#winLoseSpan");
 const gameEndScoreSpan = document.querySelector("#endScoreSpan");
+
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -32,6 +36,7 @@ class GameScene extends Phaser.Scene {
     this.load.image("arrow_yellow", "/assets/arrow_yellow.png");
     this.load.image("arrow_purple", "/assets/arrow_purple.png");
     this.load.audio("kick", "/assets/kick.mp3");
+    this.load.image("settingsButton", "/assets/settingsButton.png");
   }
 
   create() {
@@ -50,6 +55,12 @@ class GameScene extends Phaser.Scene {
 
     let position = this.getRandomQuadrant();
     this.target = this.add.image(position[1], position[2], position[0]).setOrigin(0.5, 0.5);
+
+    const settingsButton = this.add.sprite(sizes.width*0.95,sizes.height*0.05, 'settingsButton').setInteractive();
+    settingsButton.setOrigin(0.5);
+    settingsButton.alpha = 0.5
+  
+    
   }
 
   update() {
@@ -86,26 +97,43 @@ class GameScene extends Phaser.Scene {
 
     gameEndDiv.style.display = "flex";
   }
-}
 
-const config = {
-  type: Phaser.WEBGL,
-  width: sizes.width,
-  height: sizes.height,
-  canvas: gamecanvas,
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: {y:speedDown},
-      debug: false
+
+  settingsMenu(){
+
+    gameSettingsDiv.style.display = 'none';     
+
     }
-  },
-  scene:[GameScene]
-};
+  }
+
+  
+
+  const config = {
+    type: Phaser.WEBGL,
+    width: sizes.width,
+    height: sizes.height,
+    canvas: document.getElementById('gamecanvas'),
+    physics: {
+      default: "arcade",
+      arcade: {
+        gravity: {y:speedDown},
+        debug: false
+      }
+    },
+    scene: [GameScene]
+  };
+  
 
 const game = new Phaser.Game(config);
 
 gameStartBtn.addEventListener("click", () => {
   gameStartDiv.style.display = "none";
   game.scene.resume("scene-game");
+
 });
+
+settingsButton.addEventListener("click", () => {
+  gameSettingsDiv.style.display = "none";
+  game.scene.resume("scene-game");
+});
+
