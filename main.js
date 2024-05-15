@@ -2,11 +2,11 @@ import './style.css'
 import Phaser from 'phaser';
 
 const sizes = {
-  width: 500,
-  height: 500
+  width: 1440,
+  height: 816
 };
-
-const speedDown = 300;
+let beat = 1000;
+let bpm = 60;
 
 const gameStartDiv = document.querySelector("#gameStart");
 const gameEndDiv = document.querySelector("#gameEnd");
@@ -14,158 +14,107 @@ const gameStartBtn = document.querySelector("#startBtn");
 const gameWinLoseSpan = document.querySelector("#winLoseSpan");
 const gameEndScoreSpan = document.querySelector("#endScoreSpan");
 
+// Access the slider element
+const slider = document.getElementById("slider");
+// Access the element to display the slider value
+const sliderValue = document.getElementById("sliderValue");
+
 class GameScene extends Phaser.Scene {
   constructor() {
     super("scene-game");
-    this.player;
-    this.cursor;
-    this.playerSpeed = speedDown + 100;
+    this.timerEvent;
+    this.kick;
+    this.quadrants;
     this.target;
-    this.points = 0;
-    this.textScore;
-    this.textTime;
-    this.timedEvent;
-    this.remainingTime;
-    this.woum;
-    this.bgMusic;
-    this.emitter;
   }
 
-  preload(){
-    this.load.image('bg', 'assets/bg.png')
-    this.load.image('basket', 'assets/basket.png')
-    this.load.image('arrow', 'assets/arrow.png')
-    this.load.audio('coinMusic', 'assets/coin.mp3')
-    this.load.audio('bgMusic', 'assets/bgMusicAri.mp3')
-    this.load.image('rhythm', 'assets/circle.png')
-    this.load.image('bgCircle', 'assets/bgCircle.png')
-    this.load.image('arrowCircle', 'assets/arrowCircle.png')
-}
+  preload() {
+    this.load.image("bg", "/assets/bg.png");
+    this.load.image("arrow_blue", "/assets/arrow_blue.png");
+    this.load.image("arrow_red", "/assets/arrow_red.png");
+    this.load.image("arrow_yellow", "/assets/arrow_yellow.png");
+    this.load.image("arrow_purple", "/assets/arrow_purple.png");
+    this.load.audio("kick", "/assets/kick.mp3");
+    this.load.image('redCircle', 'assets/redCircle.png')
+    this.load.image('blueCircle', 'assets/blueCircle.png')
+    this.load.image('yellowCircle', 'assets/yellowCircle.png')
+    this.load.image('purpleCircle', 'assets/purpleCircle.png')
+    this.load.image('arrow', 'assets/arrowEmpty.png')
+    this.load.image('smoke', 'assets/smoke.png')
+
+  }
 
   create() {
     this.scene.pause("scene-game");
 
-    this.coinMusic = this.sound.add('coinMusic');
-    this.bgMusic = this.sound.add('bgMusic');
-    this.bgMusic.play();
-    this.add.image(0, 0, "bg").setOrigin(0, 0);
+    this.kick = this.sound.add("kick");
+    this.add.image(0, 0, "bg").setOrigin(0,  0);
 
-    var circleSprite = this.add.sprite(250, 250, 'bgCircle');
+    this.quadrants = [['blueCircle', (sizes.width/4)*3, sizes.height/4], ['redCircle', sizes.width/4, sizes.height/4], ['yellowCircle', sizes.width/4, (sizes.height/4)*3], ['purpleCircle', (sizes.width/4)*3, (sizes.height/4)*3]];
+
+    // Inside the slider event listener
+    slider.addEventListener("input", () => {
+        // Update the value displayed next to the slider
+        sliderValue.textContent = slider.value;
+        // Update your variable with the slider value
+        bpm = parseInt(slider.value); // Convert the value to an integer if needed
+        beat = Math.round(60000 / bpm); // Calculate the new beat value
+        console.log("Beat (ms) updated:", beat);
+
+        // Check if timerEvent is defined before destroying it
+        if (this.timerEvent) {
+            this.timerEvent.destroy();
+        }
+
+        // Recreate the timer event with the updated delay
+        this.timerEvent = this.time.addEvent({
+            delay: beat,
+            callback: this.triggerEvent,
+            callbackScope: this,
+            loop: true
+        });
+    });
+
+    let position = this.getRandomQuadrant();
+    this.target = this.add.image(position[1], position[2], position[0]).setOrigin(0.5, 0.5);
+
+    var circleSprite = this.add.sprite(sizes.width/2, sizes.height/2, 'smoke').setOrigin(0.5, 0.5);
     circleSprite.alpha = 1;
-    circleSprite.setScale(0.01);
-
-    var arrowSprite = this.add.sprite(250, 250, 'arrowCircle');
-    arrowSprite.alpha = 1;
-    arrowSprite.setScale(0.01);
-
+    circleSprite.setScale(0.001);
 
     this.tweens.add({
         targets: circleSprite,  // The sprite to tween
-        scaleX: 1,          // Target scale on the x-axis
-        scaleY: 1,          // Target scale on the y-axis
+        scaleX: 4,          // Target scale on the x-axis
+        scaleY: 4,          // Target scale on the y-axis
         yoyo: false,         // Make the tween reverse after reaching the target scale
         repeat: -1,         // Repeat indefinitely
         alpha: 1,           // Target alpha value
         //x: 250,             // Target x position
         //y: 250,             // Target y position
-        duration: 500,     // Duration of the tween in milliseconds
+        duration: beat,     // Duration of the tween in milliseconds
         //ease: 'Power2'      // Ease-out
     });
 
-    this.tweens.add({
-        targets: arrowSprite,  // The sprite to tween
-        scaleX: 1,          // Target scale on the x-axis
-        scaleY: 1,          // Target scale on the y-axis
-        yoyo: false,         // Make the tween reverse after reaching the target scale
-        repeat: -1,         // Repeat indefinitely
-        alpha: 1,           // Target alpha value
-        //x: 250,             // Target x position
-        //y: 250,             // Target y position
-        duration: 500,     // Duration of the tween in milliseconds
-        //ease: 'Power2'      // Ease-out
-    });
-
-    this.player = this.physics.add.image(0, sizes.height - 50, "basket").setOrigin(0,  0);
-    this.player.setImmovable(true);
-    this.player.body.allowGravity = false;
-    this.player.setCollideWorldBounds(true);
-    this.player.setSize(this.player.width - this.player.width/4, this.player.height/6).setOffset(this.player.width/10, this.player.height - this.player.height/10);
-
-    this.target = this.physics.add
-        .image(0, 0, "arrow")
-        .setOrigin(0, 0);
-    this.target.setMaxVelocity(0, speedDown);
-    this.target.setSize(40,40).setOffset(40, 40);
-
-    this.physics.add.overlap(this.target, this.player, this.targetHit, null, this);
-
-    this.cursor = this.input.keyboard.createCursorKeys();
-
-    this.textScore = this.add.text(sizes.width - 120, 10, "Score: 0", {
-      font: "25px Arial",
-      fill: "#000",
-    });
-    this.textTime = this.add.text(10, 10, "Remaining time: 00", {
-      font: "25px Arial",
-      fill: "#000",
-    });
-
-    this.timedEvent = this.time.delayedCall(10000, this.gameOver, [], this);
-
-    this.emitter = this.add.particles(0, 0, "particle", {
-      speed: 100,
-      gravityY: speedDown - 200,
-      scale: 0.04,
-      duration: 100,
-      emitting: false
-    });
-    this.emitter.startFollow(this.player, this.player.width/2, this.player.height/2, true);
   }
 
   update() {
-    this.remainingTime = this.timedEvent.getRemainingSeconds();
-    this.textTime.setText(`Remaining time: ${Math.round(this.remainingTime).toString()}`);
-
-    if (this.target.y >= sizes.height) {
-      this.target.setY(0);
-      this.target.setX(this.getRandomX());
-    }
-
-    const {left, right} = this.cursor;
-
-    if (left.isDown) {
-      this.player.setVelocityX(-this.playerSpeed);
-    } else if (right.isDown) {
-      this.player.setVelocityX(this.playerSpeed);
-    } else {
-      this.player.setVelocityX(0);
-    }
   }
 
-  getRandomX() {
-    return Math.floor(Math.random() * 480);
+  triggerEvent() {
+    this.kick.play();
+    let newPosition = this.getRandomQuadrant();
+    this.target.setX(newPosition[1]);
+    this.target.setY(newPosition[2]);
+    this.target.setTexture(newPosition[0]);
   }
 
-  targetHit() {
-    this.coinMusic.play();
-    this.emitter.start();
-    this.target.setY(0);
-    this.target.setX(this.getRandomX());
-    this.points++;
-    this.textScore.setText(`Score: ${this.points}`);
+  getRandomQuadrant() {
+    return this.quadrants[Math.floor(Math.random() * 4)];
   }
 
   gameOver() {
     this.sys.game.destroy(true);
-
-    if (this.points >= 5) {
-      gameEndScoreSpan.textContent = this.points;
-      gameWinLoseSpan.textContent = "win!";
-    } else {
-      gameEndScoreSpan.textContent = this.points;
-      gameWinLoseSpan.textContent = "lose!";
-    }
-
+    gameWinLoseSpan.textContent = "win!"
     gameEndDiv.style.display = "flex";
   }
 }
@@ -175,13 +124,6 @@ const config = {
   width: sizes.width,
   height: sizes.height,
   canvas: gamecanvas,
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: {y:speedDown},
-      debug: true
-    }
-  },
   scene:[GameScene]
 };
 
@@ -191,3 +133,4 @@ gameStartBtn.addEventListener("click", () => {
   gameStartDiv.style.display = "none";
   game.scene.resume("scene-game");
 });
+

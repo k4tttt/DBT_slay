@@ -4,29 +4,25 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Brainfunc Beats</title>
+    <title>Best game</title>
   </head>
   <body>
-    <header>
-      <p>Phaser Demo | Brainfunc Beats Battlestar Galactica</p>
-    </header>
     <main>
       <canvas id="gamecanvas"></canvas>
       <div id="gameStart" class="gameUI">
-        <h1>Catch the arrow</h1>
-        <p>Catch 5 arrows to win</p>
-        <button id="startBtn"><p>Start</p></button>
+        <h1>BrainfuncBeats</h1>
+        <p>Ange tempo (BPM)</p>
+        <input type="range" id="slider" min="30" max="120" value="60">
+        <p id="sliderValue">60</p>
+        <button id="startBtn"><p>start</p></button>
       </div>
       <div id="gameEnd" class="gameUI">
-        <p>Game over</p>
-        <h1>You <span id="winLoseSpan"></span></h1>
-        <h1>Score: <span id="endScoreSpan"></span></h1>
-        <p>Refresh to play again</p>
+        <p>game over</p>
+        <h1>you <span id="winLoseSpan"></span></h1>
+        <h1>final score: <span id="endScoreSpan"></span></h1>
+        <p>refresh to play again</p>
       </div>
     </main>
-    <footer>
-      <p>Created by DBT Slay</p>
-    </footer>
     <script type="module" src="/main.js"></script>
   </body>
 </html>
